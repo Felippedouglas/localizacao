@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.13.0/css/ol.css" type="text/css">
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.13.0/build/ol.js"></script>
+    <title>Minha localização</title>
+    <style>
+        .map {
+            height: 600px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Estou aqui</h2>
+    <p></p>
+    <div id="map" class="map"></div>
+
+    <script type="text/javascript">
+        function renderizarMapa(latitude, longitude) {
+            var map = new ol.Map({
+        target: 'map',
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          })
+        ],
+        view: new ol.View({
+          center: ol.proj.fromLonLat([longitude, latitude]),
+          zoom: 15
+        })
+      });
+        }
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                document.querySelector('p').innerHTML = "latitude = " + position.coords.latitude + "<br>" + " longitude = " + position.coords.longitude;
+                renderizarMapa(position.coords.latitude, position.coords.longitude)
+            })
+        }
+    </script>
+</body>
+
+</html>
